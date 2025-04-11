@@ -1,10 +1,23 @@
 import React from 'react';
 import { useBanner } from '../context/BannerContext';
+import { TextField } from '../context/BannerContext';
 
 interface BannerFormProps {}
 
 export const BannerForm: React.FC<BannerFormProps> = () => {
-  const { name, role, email, github, skills, theme, fontFamily, gradient, textColor, setBannerData } = useBanner();
+  const { 
+    name, 
+    role, 
+    email, 
+    github, 
+    skills, 
+    theme, 
+    fontFamily, 
+    gradient, 
+    textColor, 
+    textSizes,
+    setBannerData 
+  } = useBanner();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -26,6 +39,34 @@ export const BannerForm: React.FC<BannerFormProps> = () => {
     });
   };
 
+  const handleSizeChange = (field: TextField, value: string) => {
+    const size = parseInt(value);
+    if (!isNaN(size) && size >= 12 && size <= 48) {
+      setBannerData({
+        textSizes: {
+          ...textSizes,
+          [field]: size
+        }
+      });
+    }
+  };
+
+  const renderSizeControl = (field: TextField, label: string) => (
+    <div className="space-y-2">
+      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      <div>
+        <input
+          type="number"
+          min="12"
+          max="48"
+          value={textSizes[field]}
+          onChange={(e) => handleSizeChange(field, e.target.value)}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        />
+      </div>
+    </div>
+  );
+
   return (
     <form className="space-y-4">
       <div>
@@ -37,6 +78,7 @@ export const BannerForm: React.FC<BannerFormProps> = () => {
           onChange={handleChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         />
+        {renderSizeControl('name', 'Tamanho do Nome (12-48px)')}
       </div>
 
       <div>
@@ -48,6 +90,7 @@ export const BannerForm: React.FC<BannerFormProps> = () => {
           onChange={handleChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         />
+        {renderSizeControl('role', 'Tamanho do Cargo (12-48px)')}
       </div>
 
       <div>
@@ -59,6 +102,7 @@ export const BannerForm: React.FC<BannerFormProps> = () => {
           onChange={handleChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         />
+        {renderSizeControl('email', 'Tamanho do Email (12-48px)')}
       </div>
 
       <div>
@@ -70,6 +114,7 @@ export const BannerForm: React.FC<BannerFormProps> = () => {
           onChange={handleChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         />
+        {renderSizeControl('github', 'Tamanho do GitHub (12-48px)')}
       </div>
 
       <div>
@@ -81,6 +126,7 @@ export const BannerForm: React.FC<BannerFormProps> = () => {
           onChange={handleSkillChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         />
+        {renderSizeControl('skills', 'Tamanho das Skills (12-48px)')}
       </div>
 
       <div>
