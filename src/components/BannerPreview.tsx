@@ -68,7 +68,7 @@ export const BannerPreview: React.FC<BannerPreviewProps> = () => {
       const canvas = await html2canvas(bannerRef.current, {
         width: bannerRef.current.offsetWidth * 2,
         height: bannerRef.current.offsetHeight * 2,
-        backgroundColor: null,
+        background: null,
         logging: false,
       });
 
